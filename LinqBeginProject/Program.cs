@@ -51,36 +51,102 @@
 
 
             // обычная выборка foreach
-            List<User> usersYangs = new List<User>();
-            foreach (User user in users)
-                if (user.Age < 30)
-                    usersYangs.Add(user);
+            //List<User> usersYangs = new List<User>();
+            //foreach (User user in users)
+            //    if (user.Age < 30)
+            //        usersYangs.Add(user);
 
-            usersYangs.Sort();
+            //usersYangs.Sort();
 
-            foreach (User user in usersYangs)
-                Console.WriteLine($"{user.Name} - {user.Age}");
-            Console.WriteLine("\n---------------------\n");
+            //foreach (User user in usersYangs)
+            //    Console.WriteLine($"{user.Name} - {user.Age}");
+            //Console.WriteLine("\n---------------------\n");
 
 
             // операторы запроса LINQ
-            var userLinqOne = from user in users
-                              where user.Age < 30
-                              orderby user.Age
-                              select user;
+            //var userLinqOne = from user in users
+            //                  where user.Age < 30
+            //                  orderby user.Age
+            //                  select user;
 
-            foreach (User user in userLinqOne)
-                Console.WriteLine($"{user.Name} - {user.Age}");
-            Console.WriteLine("\n---------------------\n");
+            //var userNamesOne = from user in users
+            //                where user.Age < 30
+            //                orderby user.Name
+            //                select user.Name;
+
+            //Console.WriteLine(userLinqOne.GetType());
+            //Console.WriteLine(userNamesOne.GetType());
+
+            //foreach (User user in userLinqOne)
+            //    Console.WriteLine($"{user.Name} - {user.Age}");
+            //Console.WriteLine("\n---------------------\n");
+
+            //foreach (var item in userNamesOne)
+            //    Console.WriteLine($"{item}");
+            //Console.WriteLine("\n---------------------\n");
 
 
             // методы расширения LINQ
-            var userLinqTwo = users.Where(user => user.Age < 30).OrderBy(user => user.Age);
+            //var userLinqTwo = users.Where(user => user.Age < 30)
+            //                       .OrderBy(user => user.Age);
 
-            foreach (User user in userLinqTwo)
-                Console.WriteLine($"{user.Name} - {user.Age}");
+            //var userNamesTwo = users.Where(user => user.Age < 30)
+            //                       .OrderBy(user => user.Name)
+            //                       .Select(user => user.Name);
+
+            //foreach (User user in userLinqTwo)
+            //    Console.WriteLine($"{user.Name} - {user.Age}");
+            //Console.WriteLine("\n---------------------\n");
+
+            //foreach (var item in userNamesTwo)
+            //    Console.WriteLine($"{item}");
+            //Console.WriteLine("\n---------------------\n");
+
+
+
+            // select отображения.
+            // отображение в анонимный класс
+            //var usersSibirCo = from user in users
+            //                   where user?.Company?.Title == "SibirCo"
+            //                   select new 
+            //                   { 
+            //                       FirstName = "mr." + user.Name, 
+            //                       Age = user.Age
+            //                   };
+
+            //var usersSibirCo = from user in users
+            //                   let name = "mr. " + user.Name
+            //                   let year = DateTime.Now.Year - user.Age
+            //                   select new
+            //                   {
+            //                       FirstName = name,
+            //                       Year = year
+            //                   };
+
+
+            //foreach (var item in usersSibirCo)
+            //{
+            //    //Console.WriteLine($"{item.FirstName} {item.Age}");
+            //    Console.WriteLine($"{item.FirstName} {item.Year}");
+            //}
+
+            //Console.WriteLine("\n---------------------\n");
+
+            var userComp = from user in users
+                           from company in companies
+                           where user?.Company?.Title == company.Title
+                           select new
+                           {
+                               Name = user.Name,
+                               CompanyName = company.Title
+                           };
+
+            foreach (var item in userComp)
+            {
+                Console.WriteLine($"{item.Name} {item.CompanyName}");
+            }
+
             Console.WriteLine("\n---------------------\n");
-
         }
     }
 }
